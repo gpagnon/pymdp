@@ -2,7 +2,12 @@ from jax import numpy as jnp, random as jr
 from pymdp import utils
 from pymdp.agent import Agent
 
+# Creates a JAX pseudorandom key, seeded with 0.
+# The key (a KeyArray) is a functional RNG handle
+# you can pass to jax.random ops
 key = jr.PRNGKey(0)
+# Split the key to derive new independent subkeys and avoid
+# reusing the same key (reuse gives identical draws)
 keys = jr.split(key, 3)
 
 num_obs = [3, 5]
