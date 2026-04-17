@@ -88,17 +88,24 @@ C = utils.list_array_uniform([[no] for no in num_obs])
 #   print(C[1].shape)  # => (5,)
 #   print(C[1]) # => [0.2 0.2 0.2 0.2 0.2]
 
-
+# This creates an agent based on the above arrays
+# The argument 'batch_size' allows for multiple agents
 agent = Agent(A=A, B=B, C=C, batch_size=1)
 
 # Discrete observation indices for each modality
 obs = [jnp.array([1]), jnp.array([2])]
 
-# Use agent.D as the initial empirical prior
+# Use agent.D as the initial empirical prior:
+# if you don't specify D yourself, a uniform distribution
+# is chosen for each state factor
 qs, info = agent.infer_states(obs, empirical_prior=agent.D, return_info=True)
 # Optional diagnostic: current variational free energy for each batch element.
 vfe = info["vfe"]
+# Posterior over policies and negative EFE
 q_pi, neg_efe = agent.infer_policies(qs)
 
+# Generate two random keys...
 sample_keys = jr.split(keys[2], agent.batch_size + 1)
+# ... and use them to sample actions from the policy posterior
+# (two actions, one for state factor 1 and the other for state factor 2)
 action = agent.sample_action(q_pi, rng_key=sample_keys[1:])
