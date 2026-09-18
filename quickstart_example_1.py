@@ -1,4 +1,6 @@
-from jax import numpy as jnp, random as jr
+from jax import numpy as jnp
+from jax import random as jr
+
 from pymdp import utils
 from pymdp.agent import Agent
 

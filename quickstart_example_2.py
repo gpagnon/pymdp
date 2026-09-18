@@ -5,6 +5,7 @@
 
 from jax import jit
 from jax import random as jr
+
 from pymdp import utils
 from pymdp.agent import Agent
 from pymdp.envs.env import make
